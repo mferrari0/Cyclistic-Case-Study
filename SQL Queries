@@ -1,5 +1,5 @@
 
-# Start Station per Member Type
+# Start Station per Member Type (Casual)
 SELECT member_casual , start_station_name, COUNT(*) as tot , start_lat, start_lng
 FROM `cyclist-capstone-351919.Annual_Data.2021`
 WHERE start_station_name IS NOT NULL AND member_casual='casual'
@@ -7,37 +7,50 @@ GROUP BY start_station_name, start_lat, start_lng, member_casual
 ORDER BY tot  DESC
 LIMIT 5
 
+# Start station per member type (Member)
+SELECT member_casual , start_station_name, COUNT(*) as tot , start_lat, start_lng
+FROM `cyclist-capstone-351919.Annual_Data.2021`
+WHERE start_station_name IS NOT NULL AND member_casual='member'
+GROUP BY start_station_name, start_lat, start_lng, member_casual
+ORDER BY tot  DESC
+LIMIT 5
 
-# Ride Count per weekday per Member Type
+
+# Ride count per weekday per member type
 SELECT member_casual, COUNT(*) AS count, EXTRACT(DAYOFWEEK FROM started_at) AS weekday
 FROM `cyclist-capstone-351919.Annual_Data.2021` 
 GROUP BY member_casual, weekday
 ORDER BY member_casual, weekday
 
 
-#Ride Count per Month per Member Type
+#Ride count per month per member type
 SELECT  member_casual, COUNT(*) AS count, EXTRACT(MONTH FROM started_at) AS month
 FROM `cyclist-capstone-351919.Annual_Data.012021` 
 GROUP BY member_casual, month
 ORDER BY member_casual, month
 
 
-# Ride Count per Day Hour per Member Type
+# Ride count per day hour per member type
 SELECT  member_casual, COUNT(*) AS count, EXTRACT(HOUR FROM started_at) AS hour
 FROM `cyclist-capstone-351919.Annual_Data.2021` 
 GROUP BY member_casual, hour
 ORDER BY member_casual, hour 
 
 
-# Average Ride Time 
+# Average ride time 
 SELECT AVG(TIMESTAMP_DIFF(ended_at, started_at, MINUTE)) , member_casual
 FROM `cyclist-capstone-351919.Annual_Data.April_2022` 
 GROUP BY member_casual
 
-# Ride Type per Member Type 
+# Ride type per member type 
 SELECT  member_casual, rideable_type,  COUNT(*) AS count
 FROM `cyclist-capstone-351919.Annual_Data.2021` 
 GROUP BY member_casual, rideable_type
 ORDER BY member_casual, rideable_type
 
+# Rides per bike type per member
+SELECT  member_casual, rideable_type,  COUNT(*) AS count
+FROM `cyclist-capstone-351919.Annual_Data.2021` 
+GROUP BY member_casual, rideable_type
+ORDER BY member_casual, rideable_type
 
